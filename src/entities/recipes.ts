@@ -10,8 +10,8 @@ export class Recipes {
     @Column({ type: 'varchar', length: 200, nullable: false })
     name:string
 
-    @Column({ type: 'time', nullable: false })
-    preparation_time:Date
+    @Column({ type: 'int', nullable: false })
+    preparation_time: number
 
     @Column({ type: 'boolean', default: false })
     is_fitness:boolean

@@ -1,6 +1,4 @@
-import { Request, Response, Router } from "express";
-import { AppDataSource } from "../data-source";
-import { Recipe } from "../entities/recipes";
+import {  Router } from "express";
 import RecipeController from "../controllers/RecipeController";
 
 const recipeRouter = Router();
@@ -8,5 +6,6 @@ const recipeRouter = Router();
 const recipeController = new RecipeController();
 
 recipeRouter.post("/", recipeController.create);
+recipeRouter.get("/", recipeController.listAll);
 
 export default recipeRouter;
