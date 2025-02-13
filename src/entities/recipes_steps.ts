@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Recipes } from "./recipes";
 
 @Entity('recipes_steps')
 export class RecipesSteps {
@@ -7,6 +8,10 @@ export class RecipesSteps {
 
     @Column({ type: 'varchar', length: 100 })
     description: string;
+
+    @ManyToOne(() => Recipes, recipe => recipe.recipes_steps, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'recipe_id' })
+    recipe: Recipes;
 
     @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date
