@@ -9,6 +9,9 @@ export class RecipesSteps {
     @Column({ type: 'varchar', length: 100 })
     description: string;
 
+    @Column('int', { nullable: false })
+    recipe_id: number
+
     @ManyToOne(() => Recipes, recipe => recipe.recipes_steps, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'recipe_id' })
     recipe: Recipes;
