@@ -1,12 +1,12 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-class Recipe {
+class RecipesIngredients {
     
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ nullable: false })
     name: string
 
     @Column()
@@ -17,4 +17,4 @@ class Recipe {
 
 }
 
-export default Recipe;
+export default RecipesIngredients

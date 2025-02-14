@@ -1,19 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-class Recipe {
+class RecipeSteps {
     
     @PrimaryGeneratedColumn()
     id: number
 
     @Column({ nullable: false })
-    name: string
-
-    @Column({ nullable: false })
-    preparation_time: Date
-
-    @Column()
-    is_fitness: boolean
+    description: string
 
     @Column()
     created_at: Date
@@ -23,4 +17,4 @@ class Recipe {
 
 }
 
-export default Recipe
+export default RecipeSteps

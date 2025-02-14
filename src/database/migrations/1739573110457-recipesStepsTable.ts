@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class RecipesIngredientsTable1739572873995 implements MigrationInterface {
+export class RecipesStepsTable1739573110457 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         queryRunner.createTable (
             new Table ({
-                name: 'recipes_ingredients',
+                name: 'recipe_steps',
                 columns: [
                     {
                         name:'id',
@@ -14,9 +14,8 @@ export class RecipesIngredientsTable1739572873995 implements MigrationInterface 
                     },
 
                     {
-                        name: 'name',
-                        type: 'varchar',
-                        length: '100',
+                        name: 'description',
+                        type: 'text',
                         isNullable: false
                     },
 
@@ -36,7 +35,7 @@ export class RecipesIngredientsTable1739572873995 implements MigrationInterface 
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         
-        queryRunner.dropTable('recipes_ingredients')
+        queryRunner.dropTable('recipe_steps')
     
     }
 
