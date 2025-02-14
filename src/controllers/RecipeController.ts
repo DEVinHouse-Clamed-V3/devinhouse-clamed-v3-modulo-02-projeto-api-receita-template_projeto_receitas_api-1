@@ -34,6 +34,16 @@ class RecipeController {
       return res.status(500).json({ message: 'Internal server error' });
     }
   }
+
+  async getAll(req: Request, res: Response) {
+    try {
+      const recipes = await AppDataSource.getRepository(Recipe).find();
+      return res.status(200).json(recipes);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  }
 }
 
 export default RecipeController;

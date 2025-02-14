@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Ingredient } from './Ingredient';
 
 @Entity('recipes')
 export class Recipe {
@@ -29,4 +32,18 @@ export class Recipe {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @ManyToMany(() => Ingredient, (ingredient) => ingredient.recipes)
+  @JoinTable({
+    name: 'recipes_ingredients', // nome da tabela de junção
+    joinColumn: {
+      name: 'recipe_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'ingredient_id',
+      referencedColumnName: 'id',
+    },
+  })
+  ingredients: Ingredient[];
 }

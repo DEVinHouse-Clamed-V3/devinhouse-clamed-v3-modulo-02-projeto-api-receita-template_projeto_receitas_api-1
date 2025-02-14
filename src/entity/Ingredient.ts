@@ -4,10 +4,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm';
+import { Recipe } from './Recipes';
 
-@Entity('recipes_ingredients')
-export class RecipesIngredients {
+@Entity('ingredients')
+export class Ingredient {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,4 +25,7 @@ export class RecipesIngredients {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @ManyToMany(() => Recipe, (recipe) => recipe.ingredients)
+  recipes: Recipe[];
 }
