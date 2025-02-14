@@ -3,7 +3,6 @@ import { MigrationInterface, QueryRunner, Table } from "typeorm";
 export class RecipesTable1739571153812 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        /*
         queryRunner.createTable(
             new Table({
                     name: 'recipes',
@@ -23,7 +22,7 @@ export class RecipesTable1739571153812 implements MigrationInterface {
 
                         {
                             name: 'preparation_time',
-                            type: 'time',
+                            type: 'date',
                             isNullable: false,
                         },
 
@@ -45,10 +44,10 @@ export class RecipesTable1739571153812 implements MigrationInterface {
                     ]
             })
         )
-        */
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        queryRunner.dropTable('recipes')
     }
 
 }
