@@ -10,12 +10,6 @@ class Recipe {
     name: string
 
     @Column()
-    preparation_time: Date
-
-    @Column()
-    is_fitness: boolean
-
-    @Column()
     created_at: Date
 
     @Column()
@@ -23,4 +17,4 @@ class Recipe {
 
 }
 
-export default Recipe
+export default Recipe;
