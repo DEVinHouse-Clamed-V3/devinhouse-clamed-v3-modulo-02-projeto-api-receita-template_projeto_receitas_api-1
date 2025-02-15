@@ -3,10 +3,8 @@ import RecipeController from "../controllers/RecipeController";
 
 const recipeRouter = Router();
 
-const recipeController = new RecipeController();
+recipeRouter.post('/', RecipeController.createRecipe )
+recipeRouter.get('/', RecipeController.getRecipes )
 
-recipeRouter.post("/", recipeController.create )
-
-recipeRouter.get("/", recipeController.getAll )
 
 export default recipeRouter;
