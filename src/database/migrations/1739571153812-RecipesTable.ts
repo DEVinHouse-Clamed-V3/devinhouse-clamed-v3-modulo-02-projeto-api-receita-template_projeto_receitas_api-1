@@ -3,14 +3,16 @@ import { MigrationInterface, QueryRunner, Table } from "typeorm";
 export class RecipesTable1739571153812 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.createTable(
+        await queryRunner.createTable(
             new Table({
                 name: 'recipes',
                 columns: [
                     {
-                        name: 'id',
+                        name:'id',
                         isPrimary: true,
-                        type: 'serial'
+                        type: 'int',
+                        isGenerated: true,
+                        generationStrategy: 'increment'
                     },
 
                     {
@@ -22,8 +24,9 @@ export class RecipesTable1739571153812 implements MigrationInterface {
 
                     {
                         name: 'preparation_time',
-                        type: 'date',
+                        type: "timestamp",
                         isNullable: false,
+                        default: 'CURRENT_TIMESTAMP'
                     },
 
                     {
@@ -34,12 +37,15 @@ export class RecipesTable1739571153812 implements MigrationInterface {
 
                     {
                         name: 'created_at',
-                        type: 'date'
+                        type: "timestamp",
+                        default: 'CURRENT_TIMESTAMP'
+
                     },
                     
                     {
                         name: 'updated_at',
-                        type: 'date'
+                        type: "timestamp",
+                        default: 'CURRENT_TIMESTAMP'
                     }
                 ]
             }), true
@@ -47,7 +53,9 @@ export class RecipesTable1739571153812 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        
         queryRunner.dropTable('recipes')
+    
     }
 
 }

@@ -1,6 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import RecipesIngredients from "./RecipesIngredients";
+import RecipeSteps from "./RecipesSteps";
 
-@Entity()
+@Entity("recipes")
 class Recipe {
     
     @PrimaryGeneratedColumn()
@@ -15,11 +17,19 @@ class Recipe {
     @Column()
     is_fitness: boolean
 
-    @Column()
+    @CreateDateColumn()
     created_at: Date
 
-    @Column()
+    @CreateDateColumn()
     updated_at: Date
+
+
+    
+    @OneToMany(() => RecipesIngredients, (ingredient) => ingredient.recipe, { cascade: true })
+    ingredients: RecipesIngredients[]
+
+    @OneToMany(() => RecipeSteps, (recipeStep) => recipeStep.step, { cascade: true })
+    steps: RecipeSteps[]
 
 }
 

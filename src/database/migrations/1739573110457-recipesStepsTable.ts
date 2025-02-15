@@ -1,16 +1,18 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
 export class RecipesStepsTable1739573110457 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.createTable (
+        await queryRunner.createTable (
             new Table ({
                 name: 'recipe_steps',
                 columns: [
                     {
                         name:'id',
                         isPrimary: true,
-                        type: 'serial'
+                        type: 'int',
+                        isGenerated: true,
+                        generationStrategy: 'increment'
                     },
 
                     {
@@ -21,22 +23,44 @@ export class RecipesStepsTable1739573110457 implements MigrationInterface {
 
                     {
                         name: 'created_at',
-                        type: 'date'
+                        type: "timestamp",
+                        default: 'CURRENT_TIMESTAMP'
                     },
                     
                     {
                         name: 'updated_at',
-                        type: 'date'
+                        type: "timestamp",
+                        default: 'CURRENT_TIMESTAMP'
+                    },
+
+                    {
+                        name: 'stepId',
+                        type: 'int',
                     }
                 ]
             }), true
+        )
+
+        await queryRunner.createForeignKey(
+    
+            "recipe_steps",
+
+            new TableForeignKey({
+                columnNames: ["stepId"],
+                referencedColumnNames: ["id"],
+                referencedTableName: "recipes",
+                onDelete: "CASCADE",
+            })
         )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         
-        queryRunner.dropTable('recipe_steps')
+        await queryRunner.dropTable('recipe_steps')
     
+
+        await queryRunner.dropForeignKey('recipe_steps', 'stepId')
+
     }
 
 }

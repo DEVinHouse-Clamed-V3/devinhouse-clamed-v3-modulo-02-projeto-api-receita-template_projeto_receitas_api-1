@@ -1,16 +1,18 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
 export class RecipesIngredientsTable1739572873995 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.createTable (
+        await queryRunner.createTable (
             new Table ({
                 name: 'recipes_ingredients',
                 columns: [
                     {
                         name:'id',
                         isPrimary: true,
-                        type: 'serial'
+                        type: 'int',
+                        isGenerated: true,
+                        generationStrategy: 'increment'
                     },
 
                     {
@@ -22,22 +24,43 @@ export class RecipesIngredientsTable1739572873995 implements MigrationInterface 
 
                     {
                         name: 'created_at',
-                        type: 'date'
+                        type: "timestamp",
+                        default: 'CURRENT_TIMESTAMP'
                     },
                     
                     {
                         name: 'updated_at',
-                        type: 'date'
+                        type: "timestamp",
+                        default: 'CURRENT_TIMESTAMP'
+                    },
+
+                    {
+                        name: 'recipeId',
+                        type: 'int',
                     }
                 ]
             }), true
+        )
+
+        await queryRunner.createForeignKey(
+
+            "recipes_ingredients",
+
+            new TableForeignKey({
+                columnNames: ["recipeId"],
+                referencedColumnNames: ["id"],
+                referencedTableName: "recipes",
+                onDelete: "CASCADE",
+            })
         )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         
-        queryRunner.dropTable('recipes_ingredients')
+        await queryRunner.dropTable('recipes_ingredients')
     
+        await queryRunner.dropForeignKey('recipes_ingredients', 'recipeId')
+
     }
 
 }

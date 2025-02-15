@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import Recipe from "./Recipes";
 
-@Entity()
+@Entity("recipe_steps")
 class RecipeSteps {
     
     @PrimaryGeneratedColumn()
@@ -9,12 +10,18 @@ class RecipeSteps {
     @Column({ nullable: false })
     description: string
 
-    @Column()
+    @CreateDateColumn()
     created_at: Date
 
-    @Column()
+    @CreateDateColumn()
     updated_at: Date
 
+    @Column({ nullable: false })
+    stepId: number
+
+    @ManyToOne( () => RecipeSteps, recipeSteps => recipeSteps.step )
+    @JoinTable({ name: 'stepId'})
+    step: RecipeSteps
 }
 
 export default RecipeSteps
