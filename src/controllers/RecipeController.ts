@@ -1,34 +1,63 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { Recipe } from '../entity/Recipes';
+import { Ingredient } from '../entity/Ingredient';
+
 class RecipeController {
   async create(req: Request, res: Response) {
     try {
-      const { name, preparation_time, is_fitness } = req.body;
+      const { name, preparation_time, is_fitness, ingredients } = req.body;
 
-      if (!name || !preparation_time || is_fitness === undefined) {
+      if (
+        !name ||
+        !preparation_time ||
+        is_fitness === undefined ||
+        !ingredients
+      ) {
         res.status(400).json({ message: 'Campos obrigatórios faltando' });
         return;
       }
 
-      const recipe = await AppDataSource.getRepository(Recipe).findOne({
+      const recipeRepository = AppDataSource.getRepository(Recipe);
+
+      const ingredientRepository = AppDataSource.getRepository(Ingredient);
+
+      const existingRecipe = await recipeRepository.findOne({
         where: { name: name },
       });
 
-      if (recipe) {
+      if (existingRecipe) {
         res.status(400).json({ message: 'Receita já cadastrada' });
         return;
       }
 
-      const recipeRepository = AppDataSource.getRepository(Recipe).save({
+      const newRecipe = recipeRepository.create({
         name: name,
         preparation_time: preparation_time,
         is_fitness: is_fitness,
       });
 
-      if (recipeRepository) {
-        return res.status(201).json(recipeRepository);
-      }
+      const savedRecipe = await recipeRepository.create(newRecipe);
+
+      const ingredientEntities = await Promise.all(
+        ingredients.map(async (ingredientName: string) => {
+          let ingredient = await ingredientRepository.findOne({
+            where: { name: ingredientName },
+          });
+
+          if (!ingredient) {
+            ingredient = ingredientRepository.create({ name: ingredientName });
+            await ingredientRepository.save(ingredient);
+          }
+
+          return ingredient;
+        }),
+      );
+
+      savedRecipe.ingredients = ingredientEntities;
+      await recipeRepository.save(savedRecipe);
+
+      return res.status(201).json(savedRecipe);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'Internal server error' });
@@ -37,7 +66,9 @@ class RecipeController {
 
   async getAll(req: Request, res: Response) {
     try {
-      const recipes = await AppDataSource.getRepository(Recipe).find();
+      const recipes = await AppDataSource.getRepository(Recipe).find({
+        relations: ['ingredients'],
+      });
       return res.status(200).json(recipes);
     } catch (error) {
       console.error(error);
