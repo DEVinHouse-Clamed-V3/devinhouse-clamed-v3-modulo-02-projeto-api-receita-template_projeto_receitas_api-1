@@ -77,7 +77,7 @@ class RecipeController {
             await queryRunner.commitTransaction()
 
         } catch (err) {
-            
+
             await queryRunner.rollbackTransaction()
 
         } finally {
@@ -85,7 +85,6 @@ class RecipeController {
             await queryRunner.release()
         }
     }
-
 
     public static createRecipe = async ( req: Request, res: Response ) => {
         try {
@@ -114,6 +113,25 @@ class RecipeController {
             
         } 
     } 
+
+    public static getRecipes = async ( req: Request, res: Response ) => {
+
+        try {
+
+            const recipes = await this.RecipeRepository.find({relations: ["ingredients", "steps"]})
+
+
+            res.status( 201 ).json( recipes )
+
+        } catch ( ex ){
+
+            console.error( ex )
+
+            res.status( 500 ).json('Erro interno')
+            
+        } 
+
+    }
 
 }
 
