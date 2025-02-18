@@ -9,15 +9,11 @@ import cors from "cors"
 
 import {handleError} from "./middlewares/handleError";
 
-import recipeRouter from "./routes/recipe.routes";
-
 const app = express()
 
 app.use(cors()) // Permite que o express entenda requisições de outros domínios
 
 app.use(express.json()) // Permite que o express entenda JSON
-
-app.use("/recipes", recipeRouter)
 
 app.use(handleError)
 
