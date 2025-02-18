@@ -14,7 +14,7 @@ class RecipeController {
         is_fitness === undefined ||
         !ingredients
       ) {
-        res.status(400).json({ message: 'Campos obrigatórios faltando' });
+        res.status(400).json({ message: 'Campos obrigatórios faltando!' });
         return;
       }
 
