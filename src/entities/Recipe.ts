@@ -1,27 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from "typeorm";
-import { RecipeIngredient } from "./RecipeIngredient";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { RecipeIngredient } from "./RecipeIngredients";
 
-@Entity("recipes") // Nome da tabela no banco
+@Entity("recipes")
 export class Recipe {
-    
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", length: 200, nullable: false })
+  @Column({ length: 255, type: "varchar", nullable: false })
   name: string;
 
   @Column({ type: "time", nullable: false })
   preparation_time: string;
 
-  @Column({ type: "boolean", default: false })
+  @Column({ type: "boolean", nullable: false, default: false })
   is_fitness: boolean;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   updated_at: Date;
 
-  @OneToMany(() => RecipeIngredient, ingredient => ingredient.recipe)
+  @OneToMany(() => RecipeIngredient, (ingredient) => ingredient.recipe)
   ingredients: RecipeIngredient[];
 }

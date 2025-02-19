@@ -1,8 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableRecipesIngredients1739579223736
-  implements MigrationInterface
-{
+export class CreateTableRecipesIngredients1740004762028 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -18,7 +16,7 @@ export class CreateTableRecipesIngredients1739579223736
           {
             name: "name",
             type: "varchar",
-            length: "200",
+            length: "100",
             isNullable: false,
           },
           {
