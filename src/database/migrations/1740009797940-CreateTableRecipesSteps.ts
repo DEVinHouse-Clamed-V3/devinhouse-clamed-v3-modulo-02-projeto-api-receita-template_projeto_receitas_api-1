@@ -38,7 +38,7 @@ export class CreateTableRecipesSteps1740009797940 implements MigrationInterface 
     );
 
     await queryRunner.createForeignKey(
-      "recipes_ingredients",
+      "recipes_steps",
       new TableForeignKey({
         columnNames: ["recipe_id"],
         referencedColumnNames: ["id"],
@@ -49,7 +49,7 @@ export class CreateTableRecipesSteps1740009797940 implements MigrationInterface 
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("recipes_ingredients");
-    await queryRunner.dropForeignKey("recipes_ingredients", "recipe_id");
+    await queryRunner.dropTable("recipes_steps");
+    await queryRunner.dropForeignKey("recipes_steps", "recipe_id");
   }
 }
