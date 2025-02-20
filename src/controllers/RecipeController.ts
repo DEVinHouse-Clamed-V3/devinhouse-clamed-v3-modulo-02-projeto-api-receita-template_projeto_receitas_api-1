@@ -45,6 +45,17 @@ class RecipeController {
       next(error);
     }
   };
+
+  getAll = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const recipes = await this.recipeRepository.find({
+        relations: ["ingredients", "steps"],
+      });
+      res.status(200).json(recipes);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default RecipeController;

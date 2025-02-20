@@ -6,5 +6,6 @@ const recipeRouter = Router();
 const recipeController = new RecipeController();
 
 recipeRouter.post("/", recipeController.create);
+recipeRouter.get("/", recipeController.getAll);
 
 export default recipeRouter;
