@@ -1,25 +1,29 @@
-require('dotenv').config()
+require("dotenv").config();
 
 import "reflect-metadata";
-import express from "express"
+import express from "express";
 
-import {AppDataSource} from "./data-source"
+import { AppDataSource } from "./data-source";
 
-import cors from "cors"
+import cors from "cors";
 
-import {handleError} from "./middlewares/handleError";
+import { handleError } from "./middlewares/handleError";
+import recipeRouter from "./routes/recipe.routes";
 
-const app = express()
+const app = express();
 
-app.use(cors()) // Permite que o express entenda requisições de outros domínios
+app.use(cors()); // Permite que o express entenda requisições de outros domínios
 
-app.use(express.json()) // Permite que o express entenda JSON
+app.use(express.json()); // Permite que o express entenda JSON
 
-app.use(handleError)
+app.use("/recipes", recipeRouter);
 
-AppDataSource.initialize().then(() => {
+app.use(handleError);
+
+AppDataSource.initialize()
+  .then(() => {
     app.listen(3000, () => {
-        console.log("O servidor está rodando em http://localhost:3000")
-    })
-}).catch(error => console.log(error))
-
+      console.log("O servidor está rodando em http://localhost:3000");
+    });
+  })
+  .catch((error) => console.log(error));
