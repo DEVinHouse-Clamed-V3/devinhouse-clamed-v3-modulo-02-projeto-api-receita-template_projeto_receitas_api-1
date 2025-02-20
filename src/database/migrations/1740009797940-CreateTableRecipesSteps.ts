@@ -1,12 +1,10 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableRecipesIngredients1739579223736
-  implements MigrationInterface
-{
+export class CreateTableRecipesSteps1740009797940 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "recipes_ingredients",
+        name: "recipes_steps",
         columns: [
           {
             name: "id",
@@ -16,9 +14,9 @@ export class CreateTableRecipesIngredients1739579223736
             generationStrategy: "increment",
           },
           {
-            name: "name",
+            name: "description",
             type: "varchar",
-            length: "200",
+            length: "100",
             isNullable: false,
           },
           {
@@ -40,7 +38,7 @@ export class CreateTableRecipesIngredients1739579223736
     );
 
     await queryRunner.createForeignKey(
-      "recipes_ingredients",
+      "recipes_steps",
       new TableForeignKey({
         columnNames: ["recipe_id"],
         referencedColumnNames: ["id"],
@@ -51,7 +49,7 @@ export class CreateTableRecipesIngredients1739579223736
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("recipes_ingredients");
-    await queryRunner.dropForeignKey("recipes_ingredients", "recipe_id");
+    await queryRunner.dropTable("recipes_steps");
+    await queryRunner.dropForeignKey("recipes_steps", "recipe_id");
   }
 }
